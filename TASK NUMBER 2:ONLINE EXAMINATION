@@ -1,0 +1,185 @@
+package internship.com.Sainandini;
+import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
+public class Online_Examination 
+{
+	public static String username;
+	public static String password;
+	public static boolean isLoggedIn = false;
+	public static Timer timer;
+	public static int seconds = 10;
+	public static int examDurationInSeconds = seconds;
+	//main method
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		while(true) {
+			System.out.println("\nOnline Exam System");
+			System.out.println("1. Login");
+			System.out.println("2. Update profile and password");
+			System.out.println("3. Start timer and auto submit");
+			System.out.println("4. Select answers for MCQs");
+			System.out.println("5. Close session and logout");
+			System.out.println("Enter your choice: ");
+			int choice = scan.nextInt();
+
+			switch(choice) {
+			case 1:
+				login();
+				break;
+			case 2:
+				updateProfileAndPassword();
+				break;
+			case 3:
+				startTimer();
+				break;
+			case 4:
+				selectAnswersForMcqs();
+				break;
+			case 5:
+				closeSessionAndLogout();
+				break;
+			default:
+				System.out.println("Invalid choice. Please try again.");
+				break;
+			}
+			
+		}
+	}
+	//user Login
+	public static void login() {
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Enter  the username: ");
+		username = scan.nextLine();
+		System.out.println("Enter the password: ");
+		password = scan.nextLine();
+		if(username.equals(username)&&password.equals(password)) {
+			isLoggedIn = true;
+			System.out.println("Login successful.");
+		}else{
+			System.out.println("Invalid username or password. Please try again after some time.");
+		}
+	}
+	//updateProfileAndPassword
+	public static void updateProfileAndPassword() {
+		Scanner scan = new Scanner(System.in);
+		if(!isLoggedIn) {
+			System.out.println("user!Please login first.");
+			return;
+		}
+		System.out.println("Update profile and password");
+		System.out.println("1. update Profile");
+		System.out.println("2. Change Password");
+		System.out.println("3. Go back");
+		System.out.println("Enter your choice: ");
+		int choice = scan.nextInt();
+		switch(choice) {
+		case 1:
+			System.out.println("Enter new name: ");
+			String newName = scan.nextLine();
+			scan.nextLine();
+			System.out.println("Profile updated successfully.");
+			break;
+		case 2:
+			System.out.println("Enter current password: ");
+			String currentpassword = scan.nextLine();
+			scan.nextLine();
+			int attempts = 3;
+			while(!currentpassword.equals(password)&&attempts>0 ) {
+				System.out.println("Incorrect password.Please try again after some time.");
+				System.out.println("Attempts left: "+attempts+". Enter current password: ");
+				currentpassword = scan.nextLine().trim();
+				attempts--;
+			}
+			if(currentpassword.equals(password)) {
+				System.out.println("Enter new password: ");
+				String newPassword = scan.nextLine();
+				password = newPassword;
+				System.out.println("Password changed successfully.");
+			}else {
+				System.out.println("Too many incorrect attempts. Try again later.");
+			}
+			break;
+		case 3:
+			return;
+		default:
+			System.out.println("Invalid choice.Please try again.");
+		}
+	}
+	//startTimerAndAutoSubmit
+		public static void startTimer() {
+			Scanner scan = new Scanner(System.in);
+			if(!isLoggedIn) {
+				System.out.println("Please!Login first.");
+				return;
+			}
+			System.out.println("Exam duration in seconds: "+examDurationInSeconds);
+			timer = new Timer();
+			timer.schedule(new TimerTask(){
+				public void run() {
+					System.out.println("\nTime's up! Submitting answers automatically...");
+					submitExam();
+					timer.cancel();
+				}
+			},seconds*1000);
+			System.out.println("Timer started.The exam will be auto-submit in "+seconds+"seconds.");
+		}
+		public static void submitExam() {
+			System.out.println("Exam submitted! Thank you for the participation.");
+		}
+	//select Answers for MCQs
+	public static void selectAnswersForMcqs() {
+		Scanner scan = new Scanner(System.in);
+		if(!isLoggedIn) {
+			System.out.println("Please login first.");
+			return;
+		}
+		System.out.println("Select answers for MCQs");
+		System.out.println("1. Questions");
+		System.out.println("2. Go back");
+		System.out.println("Enter your choice: ");
+		int choice = scan.nextInt();
+		switch(choice) {
+		case 1:
+			System.out.println("Question 1: When's  your birthday?");
+			System.out.println("Options for Question 1: ");
+			System.out.println("A. Aug 31");
+			System.out.println("B. Sep 3");
+			System.out.println("C. Oct 22");
+			System.out.println("D. Nov 16");
+			System.out.println("Enter your answer (A/B/C/D): ");
+			String answer1 = scan.nextLine();
+			scan.nextLine();
+			System.out.println("Answer recorded for Question 1.");
+			System.out.println("\nQuestion 2: What is your favorite teacher’s name?");
+			System.out.println("Options for Question 2: ");
+			System.out.println("A. Nagarjuna");
+			System.out.println("B. Devaraj");
+			System.out.println("C. Pandith");
+			System.out.println("D. Shiv prasad");
+			System.out.println("Enter your answer (A/B/C/D): ");
+			String answer2 = scan.nextLine();
+			System.out.println("\nAnswer recorded for Question 2.");
+			break;
+		case 2:
+			return;
+		default:
+			System.out.println("Invalid choice. Please try again.");
+		}
+	}
+	
+	//close Session and Logout
+	public static void closeSessionAndLogout() {
+		if(!isLoggedIn) {
+			System.out.println("Please login first: ");
+			return;
+		}
+		isLoggedIn = false;
+		System.out.println("Logout successful.");
+	}
+
+
+
+}
+
+
